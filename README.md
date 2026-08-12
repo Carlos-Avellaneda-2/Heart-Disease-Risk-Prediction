@@ -36,61 +36,73 @@ All steps, metrics, plots, and interpretation are in [`heart_disease_lr_analysis
 > the same folder as `heart_disease_lr_analysis.ipynb` before running it — the notebook
 > auto-detects the CSV file in its working directory.
 
-## SageMaker Evidence
+## Requirements
 
-The notebook prepares `train_sagemaker.csv`, `test_sagemaker.csv`, and
-`preprocessing_params.csv` for upload to the AWS Academy SageMaker environment (see Section 14 of
-the notebook). **No endpoint was created or deployed** — SageMaker was used strictly to train and
-test the model, per the account restriction stated in the assignment.
+- Python 3
+- NumPy
+- Pandas
+- Matplotlib
 
-Add your screenshots below as evidence that training and testing were completed successfully in
-SageMaker.
+## How to Run
 
-### 1. SageMaker notebook / training execution
+1. Clone this repository.
+2. Install the dependencies: `pip install numpy pandas matplotlib`.
+3. Open `heart_disease_lr_analysis.ipynb` in Jupyter and run all cells.
 
-*Screenshot showing the SageMaker notebook instance running the training code
-(e.g. the notebook cell that calls the training loop, with the kernel and instance visible).*
+## Main Result
 
-```
-![SageMaker training execution](./screenshots/sagemaker_training.png)
-```
+The dataset contains 303 patient records with no missing values and a single duplicate row (left
+in place, as it does not meaningfully affect the split). A logistic regression model trained from
+scratch on six standardized clinical features (`age`, `chol`, `trestbps`, `thalach`, `oldpeak`,
+`ca`) reaches ~75% train accuracy and ~78% test accuracy (F1 ≈ 0.82), with no sign of overfitting.
+Decision-boundary visualizations on feature pairs confirm the same importance pattern seen in the
+model's coefficients: `oldpeak`/`ca` separate the two classes far better than `age`/`chol`. L2
+regularization barely moves test accuracy or F1 as λ increases, indicating the unregularized model
+was not strongly overfitting to begin with; λ = 0.001 is selected as a low-cost safeguard against
+overfitting on unseen data.
 
-### 2. Successful completion
+## SageMaker Training and Testing
 
-*Screenshot showing the training run finished without errors (e.g. final cost/loss printed,
-"Training complete" message, or the completed cell with its output).*
+The notebook (`heart_disease_lr_analysis.ipynb`) and the dataset (`heart.csv`) were uploaded to a
+notebook instance in the AWS Academy Learner Lab SageMaker environment. **No endpoint or model
+deployment service was created or used**, per the account limitation for this course.
 
-```
-![SageMaker training completed](./screenshots/sagemaker_completion.png)
-```
+### Environment
 
-### 3. Test-set metrics
+*Fill in your notebook instance / domain / kernel details here (e.g. instance type, kernel name),
+then add a screenshot showing the SageMaker notebook open with that environment visible.*
 
-*Screenshot showing accuracy, precision, recall, and F1 computed on the held-out test set inside
-the SageMaker notebook.*
+![SageMaker environment](screenshots/image.png)
 
-```
-![SageMaker test metrics](./screenshots/sagemaker_test_metrics.png)
-```
+### Process
 
-### Environment / instance configuration
+The same code used for the local run was executed unmodified inside the SageMaker notebook: data
+loading/cleaning, feature standardization, gradient descent training of the logistic regression
+model, and evaluation on the held-out test set.
 
-*Record here the SageMaker notebook instance type / kernel used (e.g. `ml.t3.medium`,
-`conda_python3`), if available from the AWS Academy environment.*
+*Add a screenshot of the training cell running (or the cost-vs-iteration plot) confirming the
+training loop ran to completion inside SageMaker.*
+
+![SageMaker training](screenshots/image1.png)
+
+### Test Results
+
+| Set | Accuracy | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|
+| Train | 0.748954 | 0.733831 | 0.801630 | 0.766234 |
+| Test | 0.811688 | 0.824675 | 0.803797 | 0.814103 |
+
+
+![SageMaker test results](screenshots/image2.png)
+
+### Comparison with Local Execution
+
+*Compare the metrics obtained in SageMaker above against the local results reported in
+"Main Result" (train accuracy ≈ 0.75 / test accuracy ≈ 0.78, λ = 0.001). Note whether they match
+and, if not, what might explain the difference (data used, random seed, number of iterations,
+etc.).*
 
 -
-
-### Local vs. SageMaker comparison
-
-*After running SageMaker, copy the metrics into Section 16 of the notebook
-(`heart_disease_lr_analysis.ipynb`) to replace the `NaN` placeholders, and summarize here whether
-the results matched the local run.*
-
--
-
-> **Reminder:** do not include endpoint configuration or inference-endpoint evidence — only
-> training and testing screenshots are required, per the assignment's SageMaker account
-> restriction.
 
 ## Repository Contents
 
@@ -98,5 +110,6 @@ the results matched the local run.*
   visualization, regularization, SageMaker data preparation).
 - `README.md` — this file.
 - `heart.csv` — dataset used to run the notebook (or place your own downloaded copy here).
-- `screenshots/` — SageMaker evidence images (add this folder with your screenshots before
-  submitting).
+- `images/` — SageMaker evidence screenshots (add this folder with your own screenshots before
+  submitting: `image.png` for the environment, `image2.png` for the training process, `image3.png`
+  for the test results).
