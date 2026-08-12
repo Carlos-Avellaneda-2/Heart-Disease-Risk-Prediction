@@ -1,0 +1,26 @@
+# Archivos generados por el notebook (Sección 14 - preparación para SageMaker)
+# Se regeneran cada vez que se corre el notebook, no hace falta versionarlos.
+train_sagemaker.csv
+test_sagemaker.csv
+preprocessing_params.csv
+
+# Checkpoints de Jupyter
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Cache de Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuración de editores/IDEs
+.vscode/
+.idea/
